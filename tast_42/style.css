@@ -1,0 +1,10 @@
+/** @format */
+
+button {
+  margin: 0 10px 10px 0;
+  width: 40px;
+}
+
+.action {
+  background: rgb(136, 195, 136);
+}

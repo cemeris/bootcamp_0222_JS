@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="style.css">
+
+<nav>
+    <a href="./">Main</a>
+    <a href="basics.html">Basic</a>
+    <a href="code_block.html">Code Blocks</a>
+</nav>
+
+<p class="output">Text</p>
+<button class="change_text">Click</button>
+<button onclick="alert('Hello world!')">Show Alert</button>
+
+<div class="square"></div>
+<input type="color" class="color_value">
+
+<textarea id="output" cols="30" rows="10"></textarea>
+
+<div class="input-conf">
+    <input type="text" placeholder="Vārds" oninput="this.setAttribute('value', this.value)" value=""/>
+    <span>Vārds</span>
+</div>
+
+<button class="add_element">add</button>
+<div class="basket">
+    <div class="small_square template"></div>
+</div>
+
+<script>
+    document.querySelector('.change_text').onclick = function(event) {
+        document.querySelector('.output').textContent = "Hello world"
+    }
+</script>
+
+<script src="script.js"></script>

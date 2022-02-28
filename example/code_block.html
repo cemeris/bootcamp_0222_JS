@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="style.css">
+
+<nav>
+    <a href="./">Main</a>
+    <a href="basics.html">Basic</a>
+    <a href="code_block.html">Code Blocks</a>
+</nav>
+
+<div class="words"></div>
+
+<input type="text" id="input" oninput="inputEvent()">
+<pre id="output">
+
+</pre>
+
+<script>
+    function output(data) {
+        document.querySelector('#output').append(data + "\n")
+    }
+
+    function getInputValue() {
+        return document.querySelector('#input').value
+    }
+
+    function resetOutput() {
+        document.querySelector('#output').textContent = '';
+    }
+</script>
+
+<script src="code_block.js"></script>
+
