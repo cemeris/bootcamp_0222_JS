@@ -3,11 +3,17 @@ const template = document.createElement('a')
 const message_header = document.querySelector('.message')
 template.setAttribute('href', '#')
 let move_count = 0
-let data = {}
+
+const fourInLineStorage = new Storage('for_in_line_storage')
 
 for (let r = 0; r < 10; r++) {
     for (let c = 0; c < 10; c++) {
         const cell = template.cloneNode()
+        if (fourInLineStorage.entryExists(r, c)) {
+            cell.textContent = fourInLineStorage.getEntry(r, c)
+            move_count++;
+        }
+
         four_in_line.append(cell)
 
         cell.onclick = function (event) {
@@ -16,14 +22,14 @@ for (let r = 0; r < 10; r++) {
             }
             if (
                 r == 9 ||
-                (data.hasOwnProperty(r+1) && data[r+1].hasOwnProperty(c))
+                (
+                    fourInLineStorage.data.hasOwnProperty(r+1) &&
+                    fourInLineStorage.data[r+1].hasOwnProperty(c)
+                )
             ) {
                 let symbol = (move_count % 2 === 1) ? 'o' : 'x'
                 this.textContent = symbol
-                if (!data.hasOwnProperty(r)) {
-                    data[r] = {}
-                }
-                data[r][c] = symbol
+                fourInLineStorage.saveMove(r,c, symbol)
 
                 if (checkWinner(r, c, symbol)) {
                     message_header.textContent = "We have a winner!"
@@ -37,15 +43,15 @@ for (let r = 0; r < 10; r++) {
 
 document.querySelector('.reset').onclick = function(event) {
     const cells = four_in_line.children
-    for(let r in data) {
-        let row = data[r]
+    for(let r in fourInLineStorage.data) {
+        let row = fourInLineStorage.data[r]
         for (let c in row) {
             cells[10*r + Number(c)].textContent = ''
         }
     }
     move_count = 0
     message_header.textContent = ""
-    data = {}
+    fourInLineStorage.resetData()
 }
 
 function checkWinner(r, c, symbol) {
@@ -93,7 +99,10 @@ function countInDirection(r, c, symbol, direction) {
     for (let i = 0; i <= 2; i++) {
         r = r + direction[0]
         c = c + direction[1]
-        if (data.hasOwnProperty(r) && data[r][c] === symbol) {
+        if (
+            fourInLineStorage.data.hasOwnProperty(r) &&
+            fourInLineStorage.data[r][c] === symbol
+        ) {
             counter++
         }
         else {
