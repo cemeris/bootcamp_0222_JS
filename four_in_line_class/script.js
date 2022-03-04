@@ -4,7 +4,7 @@ const message_header = document.querySelector('.message')
 template.setAttribute('href', '#')
 let move_count = 0
 
-const fourInLineStorage = new Storage('for_in_line_storage')
+const fourInLineStorage = new StorageManeger('for_in_line_storage')
 
 for (let r = 0; r < 10; r++) {
     for (let c = 0; c < 10; c++) {
@@ -21,20 +21,15 @@ for (let r = 0; r < 10; r++) {
                 return
             }
             if (
-                r == 9 ||
-                (
-                    fourInLineStorage.data.hasOwnProperty(r+1) &&
-                    fourInLineStorage.data[r+1].hasOwnProperty(c)
-                )
+                r == 9 || fourInLineStorage.entryExists(r+1, c)
             ) {
                 let symbol = (move_count % 2 === 1) ? 'o' : 'x'
                 this.textContent = symbol
                 fourInLineStorage.saveMove(r,c, symbol)
 
                 if (checkWinner(r, c, symbol)) {
-                    message_header.textContent = "We have a winner!"
+                    message_header.textContent = symbol + " has won the game!"
                 }
-
                 move_count++
             }
         }
@@ -100,8 +95,8 @@ function countInDirection(r, c, symbol, direction) {
         r = r + direction[0]
         c = c + direction[1]
         if (
-            fourInLineStorage.data.hasOwnProperty(r) &&
-            fourInLineStorage.data[r][c] === symbol
+            fourInLineStorage.entryExists(r,c) &&
+            fourInLineStorage.getEntry(r,c) === symbol
         ) {
             counter++
         }

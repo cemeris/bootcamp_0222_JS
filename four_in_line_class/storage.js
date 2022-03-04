@@ -1,4 +1,4 @@
-class Storage {
+class StorageManeger {
     constructor (storage_name) {
         this.storage_name = storage_name
         const item_string = localStorage.getItem(storage_name)
@@ -9,7 +9,6 @@ class Storage {
         else {
             this.data = JSON.parse(item_string)
         }
-
     }
     saveMove(r, c, symbol) {
         if (!this.data.hasOwnProperty(r)) {
