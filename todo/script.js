@@ -13,18 +13,30 @@
 */
 
 const Form = new FormManager()
-const Task = new TaskManager('.todo_list')
 const Storage = new StorageManager('todo_list')
+const Task = new TaskManager('.todo_list', function (id) {
+    Storage.removeItem(id)
+})
 
-for(let task of Storage.data) {
-    Task.addItem(task)
+const items = Storage.getItems()
+for (let id in items) {
+    Task.addItem(id, items[id])
 }
 
 document.getElementById('todo_form').onsubmit = function (event) {
     const value = Form.getValue(event)
-    Task.addItem(value)
-    Storage.addItem(value)
+    const id = Storage.addItem(value)
+    Task.addItem(id, value)
 }
 
 
-//Form.submitHook
+/*
+  Uzlikšķinot uz edit pogu. +
+  1. edit tekstam ir jāsaimainās uz save
+  2. un teksta elementam ".todo_list__text" ir jāpieliek atribūts "contenteditable"
+  3. elementam ".todo_list__edit_btn" ir jāpieliek klase save
+
+
+
+  setAttribute('contenteditable', true)
+*/
